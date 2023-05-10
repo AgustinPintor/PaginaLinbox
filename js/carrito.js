@@ -69,20 +69,17 @@ function renderizarProductos() {
   }
 };
 
-
-
-
-function obtenerJSON() {
-  $.getJSON("./json/productos.json", function (respuesta, estado) {
-    if (estado == "success") {
-      productosJSON = respuesta;
-      renderizarProductos();
-    }
-  });
+async function obtenerJSON() {
+  try {
+    const respuesta = await $.getJSON("./json/productos.json");
+    
+    productosJSON = respuesta;
+    
+    renderizarProductos();
+  } catch (error) {
+    console.error("Ocurrio el siguiente error en el llamado del Json"+error)
+  }
 }
-
-
-
 
 function ordenarProductos() {
   let seleccion = $("#seleccion").val();
@@ -190,11 +187,13 @@ function vaciarCarrito() {
 }
 
 
-function cargarCarrito() {
-  let carrito = JSON.parse(localStorage.getItem("carrito"));
-  if (carrito == null) {
-    return [];
-  } else {
-    return carrito;
+  function cargarCarrito() {
+    let carrito = JSON.parse(localStorage.getItem("carrito"));
+    if (carrito == null) {
+      return [];
+    } else {
+      return carrito;
+    }
   }
-}
+
+
